@@ -1,2 +1,3 @@
 SCREEN_WIDTH = 900
 SCREEN_HEIGHT = 550
+print("привет")
