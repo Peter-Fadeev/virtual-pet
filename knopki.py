@@ -17,7 +17,8 @@ class Knopki:
         self.hitboxtxt.center = self.hitbox.center
     def otrisovka(self):
         self.game.screen.blit(self.kartinka, self.hitbox)
-        self.game.screen.blit(self.kartinkatxt, self.hitboxtxt)        
+        self.game.screen.blit(self.kartinkatxt, self.hitboxtxt)
+              
     def click(self):
         self.kartinka = images.buttonclicked
         self.timeclick = pygame.time.get_ticks()

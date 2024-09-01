@@ -32,7 +32,7 @@ class Game:
         self.sobitieradost = pg.USEREVENT + 1
         self.sobitiehp = pg.USEREVENT + 2
 
-        pygame.time.set_timer(self.sobitiegolod, random.randint(5000, 20000))
+        pygame.time.set_timer(self.sobitiegolod, random.randint(10000, 25000))
         pygame.time.set_timer(self.sobitieradost, random.randint(10000, 25000))
         pygame.time.set_timer(self.sobitiehp, random.randint(5000, 15000))
 
@@ -42,6 +42,8 @@ class Game:
         self.buttonupgrades = knopki.Knopki("улучшения", 630, 425, self)
 
         self.buttons = [self.buttonfood, self.buttonclothes, self.buttonigra, self.buttonupgrades]
+
+        self.shrift = pygame.freetype.Font("shrift.ttf", 28)
         self.run()
 
     def run(self):
@@ -54,19 +56,20 @@ class Game:
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 self.c = False
-            if event.type == pg.MOUSEBUTTONDOWN:
-                if self.dog.hitbox.collidepoint(event.pos) == True:
-                    self.money.chislo = self.money.chislo + 1
-                for button in self.buttons:
-                    if button.hitbox.collidepoint(event.pos) == True:
-                        button.click()
-            if event.type == self.sobitiegolod:
-                self.golod.chislo = self.golod.chislo - random.randint(1, 10)
-            if event.type == self.sobitieradost:
-                self.radost.chislo = self.radost.chislo - random.randint(1, 6)
-            if event.type == self.sobitiehp:
-                if self.golod.chislo <= 20 or self.radost.chislo <= 20:                
-                    self.hp.chislo = self.hp.chislo - random.randint(1,5)                               
+            if self.hp.chislo > 0:
+                if event.type == pg.MOUSEBUTTONDOWN:
+                    if self.dog.hitbox.collidepoint(event.pos) == True:
+                        self.money.chislo = self.money.chislo + 1
+                    for button in self.buttons:
+                        if button.hitbox.collidepoint(event.pos) == True:
+                            button.click()
+                if event.type == self.sobitiegolod:
+                    self.golod.chislo = self.golod.chislo - random.randint(1, 10)
+                if event.type == self.sobitieradost:
+                    self.radost.chislo = self.radost.chislo - random.randint(1, 6)
+                if event.type == self.sobitiehp:
+                    if self.golod.chislo <= 20 or self.radost.chislo <= 20:                
+                        self.hp.chislo = self.hp.chislo - random.randint(1,5)
 
     def update(self):
         for button in self.buttons:
@@ -80,6 +83,8 @@ class Game:
         self.golod.draw()
         self.radost.draw()
         self.hp.draw()
+        if self.hp.chislo <= 0:
+            self.shrift.render_to(self.screen, [15, 350], "вы проиграли")  
         for button in self.buttons:
             button.otrisovka()
         pg.display.flip()
